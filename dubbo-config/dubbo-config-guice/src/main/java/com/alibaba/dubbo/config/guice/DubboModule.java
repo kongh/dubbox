@@ -18,11 +18,13 @@ public abstract class DubboModule extends AbstractModule{
 
     @Override
     protected void configure() {
+        //暴露服务
         bindConstant().annotatedWith(Names.named("dubbo.scan.packages")).to(scanPackages);
         bind(DubboExportService.class).in(Scopes.SINGLETON);
+
+        //引用服务
         DubboReferenceService referenceService = new DubboReferenceService();
         bind(DubboReferenceService.class).toInstance(referenceService);
-        bind(DubboAnnotationService.class).to(DefaultDubboAnnotationService.class);
         bindListener(Matchers.any(), referenceService);
     }
 

@@ -17,6 +17,7 @@ package com.alibaba.dubbo.config.guice.extension;
 
 import com.alibaba.dubbo.common.extension.ExtensionFactory;
 import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
@@ -42,7 +43,7 @@ public class GuiceExtensionFactory implements ExtensionFactory {
 
     @SuppressWarnings("unchecked")
     public <T> T getExtension(Class<T> type, String name) {
-        Key<T> key = Key.get(type, Names.named(name));
+        Key<T> key = StringUtils.isBlank(name) ? Key.get(type) : Key.get(type, Names.named(name));
         for (Injector injector : injectors) {
             if(injector.getExistingBinding(key) != null){
                return injector.getInstance(key);
