@@ -1,0 +1,1 @@
+guice=com.alibaba.dubbo.config.guice.extension.GuiceExtensionFactory
