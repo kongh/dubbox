@@ -1,5 +1,6 @@
 package com.alibaba.dubbo.config.guice;
 
+import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.extension.ExtensionFactory;
 import com.alibaba.dubbo.config.*;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -24,6 +25,8 @@ public class DubboReferenceService implements ProvisionListener , ExtensionFacto
     private ExtensionFactory extensionFactory;
 
     private final ConcurrentMap<String, ReferenceConfig<?>> referenceConfigs = new ConcurrentHashMap<String, ReferenceConfig<?>>();
+
+    private String[] scanPackages;
 
     private Object refer(Reference reference, Class<?> referenceClass) {
         String interfaceName;
@@ -102,6 +105,10 @@ public class DubboReferenceService implements ProvisionListener , ExtensionFacto
         Binding<T> binding = provision.getBinding();
         Class<? super T> clazz = binding.getKey().getTypeLiteral().getRawType();
         T bean = provision.provision();
+        if (! isMatchPackage(bean)) {
+            return ;
+        }
+
         Method[] methods = clazz.getMethods();
         for (Method method : methods) {
             String name = method.getName();
@@ -143,6 +150,26 @@ public class DubboReferenceService implements ProvisionListener , ExtensionFacto
 
     public ConcurrentMap<String, ReferenceConfig<?>> getReferenceConfigs() {
         return referenceConfigs;
+    }
+
+    public void setScanPackages(String scanPackages) {
+        this.scanPackages = (scanPackages == null || scanPackages.length() == 0) ? null
+                : Constants.COMMA_SPLIT_PATTERN.split(scanPackages);
+    }
+
+    private boolean isMatchPackage(Object bean) {
+        if (scanPackages == null || scanPackages.length == 0) {
+            return true;
+        }
+        Class clazz = bean.getClass();
+
+        String beanClassName = clazz.getName();
+        for (String pkg : scanPackages) {
+            if (beanClassName.startsWith(pkg)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

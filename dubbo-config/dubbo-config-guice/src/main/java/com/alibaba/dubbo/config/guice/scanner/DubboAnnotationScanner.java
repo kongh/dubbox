@@ -1,6 +1,5 @@
 package com.alibaba.dubbo.config.guice.scanner;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.google.common.base.Predicate;
 import org.reflections.Reflections;
@@ -12,7 +11,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
@@ -31,11 +29,7 @@ public class DubboAnnotationScanner {
         ScanAnnotations scanModel = new ScanAnnotations();
         Reflections reflections = getReflection(packageList);
         Set<Class<?>> serviceClasses = reflections.getTypesAnnotatedWith(Service.class);
-        Set<Method> referenceMethods = reflections.getMethodsAnnotatedWith(Reference.class);
-        Set<Method> referenceParamMethods = reflections.getMethodsWithAnyParamAnnotated(Reference.class);
-        referenceMethods.addAll(referenceParamMethods);
         scanModel.setServiceClasses(serviceClasses);
-        scanModel.setReferenceMethods(referenceMethods);
         return scanModel;
     }
 

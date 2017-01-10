@@ -46,6 +46,7 @@ public class DefaultDubboAnnotationService implements DubboAnnotationService {
         this.exportService = exportService;
         exportService.setExtensionFactory(extensionFactory);
         this.referenceService = referenceService;
+        this.referenceService.setScanPackages(scanPackages);
         referenceService.setExtensionFactory(extensionFactory);
     }
 
