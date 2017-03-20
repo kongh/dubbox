@@ -724,4 +724,35 @@
 			<timezone>+8</timezone>
 		</developer>
 	</developers>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>meicanyun-snapshot</id>
+			<name>meicanyun Snapshot</name>
+			<url>http://maven.chongkouwei.com/nexus/content/repositories/snapshots/</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+
+		<repository>
+			<id>meicanyun-release</id>
+			<name>meicanyun Release</name>
+			<url>http://maven.chongkouwei.com/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<name>meicanyun Nexus</name>
+			<url>http://maven.chongkouwei.com/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<name>meicanyun Nexus</name>
+			<url>http://maven.chongkouwei.com/nexus/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
